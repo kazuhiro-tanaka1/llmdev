@@ -1,0 +1,17 @@
+/* ヘッダー */
+.header {
+    background-color: #84ceef;
+    color: #fff;
+}
+
+/* h1（ページタイトル） */
+.main h1 {
+    color: #e47292;
+    text-align: center;
+}
+
+/* フッター */
+.footer {
+    background-color: #040000;
+    color: #fff;
+}
