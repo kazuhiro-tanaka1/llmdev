@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="chat-container">
+    <h2>AI Chatbot</h2>
+
+    <div id="chat-box"></div>
+
+    <input id="user-input" placeholder="メッセージを入力">
+
+    <button onclick="sendMessage()">送信</button>
+    <button onclick="resetChat()">履歴削除</button>
+</div>
+
+<script>
+
+async function sendMessage() {
+    const input = document.getElementById("user-input");
+    const message = input.value;
+
+    const res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message})
+    });
+
+    const data = await res.json();
+
+    renderChat(data.history);
+
+    input.value = "";
+}
+
+
+// =========================
+// 履歴描画
+// =========================
+function renderChat(history) {
+    const box = document.getElementById("chat-box");
+    box.innerHTML = "";
+
+    history.forEach(h => {
+        box.innerHTML += `<p><b>You:</b> ${h.user}</p>`;
+        box.innerHTML += `<p><b>Bot:</b> ${h.bot}</p>`;
+    });
+}
+
+
+// =========================
+// 履歴削除
+// =========================
+async function resetChat() {
+    await fetch("/reset", {
+        method: "POST"
+    });
+
+    document.getElementById("chat-box").innerHTML = "";
+}
+</script>
+{% endblock %}
